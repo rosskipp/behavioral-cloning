@@ -95,7 +95,7 @@ def trainModel(model, X_train, y_train, model_name):
 
 
 # PATH = '/Users/ross/Desktop/drive_data/'
-PATH = '/Users/ross/Downloads/data_2/'
+PATH = '/Users/ross/Desktop/data_2/'
 
 print('Parsing the csv....')
 csv_data = getLinesFromCSV(path=PATH)
@@ -112,7 +112,6 @@ history_object = trainModel(model=model, X_train=X_train, y_train=y_train, model
 
 print('Training complete and model saved....')
 
-
 ### plot the training and validation loss for each epoch
 plt.plot(history_object.history['loss'])
 plt.plot(history_object.history['val_loss'])
@@ -121,3 +120,5 @@ plt.ylabel('mean squared error loss')
 plt.xlabel('epoch')
 plt.legend(['training set', 'validation set'], loc='upper right')
 plt.savefig('model_new_data_dropout.png')
+
+print('Training plot saved....') 
