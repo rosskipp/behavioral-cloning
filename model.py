@@ -94,7 +94,11 @@ def trainModel(model, X_train, y_train, model_name):
     return history_object
 
 
-# PATH = '/Users/ross/Desktop/drive_data/'
+
+###################
+### MODEL PIPELINE
+###################
+
 PATH = '/Users/ross/Desktop/data_2/'
 
 print('Parsing the csv....')
@@ -108,7 +112,7 @@ model = preprocessLayers()
 model = nvidiaNetwork(model)
 
 print('Training the network....')
-history_object = trainModel(model=model, X_train=X_train, y_train=y_train, model_name='model_new_data_dropout.h5')
+history_object = trainModel(model=model, X_train=X_train, y_train=y_train, model_name='model.h5')
 
 print('Training complete and model saved....')
 
@@ -119,6 +123,6 @@ plt.title('model mean squared error loss')
 plt.ylabel('mean squared error loss')
 plt.xlabel('epoch')
 plt.legend(['training set', 'validation set'], loc='upper right')
-plt.savefig('model_new_data_dropout.png')
+plt.savefig('model_loss.png')
 
-print('Training plot saved....') 
+print('Training plot saved....')
