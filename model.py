@@ -76,26 +76,26 @@ def nvidiaNetwork(model):
     model.add(Convolution2D(64, 3, 3, activation="relu"))
     model.add(Convolution2D(64, 1, 1, activation="relu"))
     model.add(Flatten())
-    # model.add(Dropout(0.5))
+    model.add(Dropout(0.5))
+    model.add(Dense(100))
+    model.add(Dropout(0.5))
     model.add(Dense(50))
-    # model.add(Dropout(0.5))
+    model.add(Dropout(0.5))
     model.add(Dense(10))
-    # model.add(Dropout(0.5))
     model.add(Dense(1))
     return model
 
 
-def trainModel(model, X_train, y_train):
+def trainModel(model, X_train, y_train, model_name):
     ### Compile, fit, and save model
     model.compile(loss='mse', optimizer='adam')
-    model.fit(X_train, y_train, validation_split=0.2, shuffle=True, nb_epoch=3)
-    model.save('model_mydata.h5')
+    history_object = model.fit(X_train, y_train, validation_split=0.2, shuffle=True, nb_epoch=3)
+    model.save(model_name)
+    return history_object
 
 
-
-
-PATH = '/Users/ross/Desktop/drive_data/'
-# PATH = '/Users/ross/Downloads/data/'
+# PATH = '/Users/ross/Desktop/drive_data/'
+PATH = '/Users/ross/Downloads/data_2/'
 
 print('Parsing the csv....')
 csv_data = getLinesFromCSV(path=PATH)
@@ -108,24 +108,16 @@ model = preprocessLayers()
 model = nvidiaNetwork(model)
 
 print('Training the network....')
-trainModel(model=model, X_train=X_train, y_train=y_train)
+history_object = trainModel(model=model, X_train=X_train, y_train=y_train, model_name='model_new_data_dropout.h5')
 
 print('Training complete and model saved....')
 
-# history_object = model.fit_generator(train_generator, samples_per_epoch =
-#     len(train_samples), validation_data =
-#     validation_generator,
-#     nb_val_samples = len(validation_samples),
-#     nb_epoch=5, verbose=1)
 
-### print the keys contained in the history object
-# print(history_object.history.keys())
-
-# ### plot the training and validation loss for each epoch
-# plt.plot(history_object.history['loss'])
-# plt.plot(history_object.history['val_loss'])
-# plt.title('model mean squared error loss')
-# plt.ylabel('mean squared error loss')
-# plt.xlabel('epoch')
-# plt.legend(['training set', 'validation set'], loc='upper right')
-# plt.show()
+### plot the training and validation loss for each epoch
+plt.plot(history_object.history['loss'])
+plt.plot(history_object.history['val_loss'])
+plt.title('model mean squared error loss')
+plt.ylabel('mean squared error loss')
+plt.xlabel('epoch')
+plt.legend(['training set', 'validation set'], loc='upper right')
+plt.savefig('model_new_data_dropout.png')
